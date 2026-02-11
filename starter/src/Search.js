@@ -7,6 +7,15 @@ function Search({ books, onUpdate }) {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
 
+  const handleUpdateBook = (book, shelf) => {
+    onUpdate(book, shelf);
+
+    setResults((prevResults) =>
+      prevResults.map((b) =>
+        b.id === book.id ? { ...b, shelf } : b
+      )
+    );
+  };
   const handleSearch = async (q) => {
     setQuery(q);
 
@@ -50,7 +59,7 @@ function Search({ books, onUpdate }) {
       <div className="search-books-results">
         <ol className="books-grid">
           {results.map((book) => (
-            <Book key={book.id} book={book} onUpdate={onUpdate} />
+            <Book key={book.id} book={book} onUpdate={handleUpdateBook} />
           ))}
         </ol>
       </div>
